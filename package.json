@@ -48,5 +48,6 @@
   },
   "lint-staged": {
     "*.js": "eslint --fix --max-warnings=0"
-  }
+  },
+  "proxy": "http://localhost:8000"
 }
