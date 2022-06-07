@@ -1,9 +1,15 @@
+@use "/src/styles/theme";
+
 .LoginPage {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
+}
+
+.logo {
+  @include theme.logo-center;
 }
 
 .login-form {
@@ -33,4 +39,8 @@
   width: calc(100% - 50px);
   position: absolute;
   bottom: 50px;
+}
+
+.error-message {
+  font-size: 12px;
 }
