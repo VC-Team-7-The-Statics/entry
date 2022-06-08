@@ -1,5 +1,5 @@
 import styles from "./LoginPage.module.scss";
-import { Button, Input } from "@the-statics/shared-components";
+import { Button01, Input01 } from "@the-statics/shared-components";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Joi from "joi";
@@ -91,7 +91,7 @@ function LoginPage() {
       <form className={styles["login-form"]} onSubmit={handleSubmit}>
         <div className={styles.login}>
           <div className={styles.login__email}>
-            <Input
+            <Input01
               placeholder="이메일을 입력해 주세요"
               onChange={(e) =>
                 setInput((prev) => ({ ...prev, email: e.target.value }))
@@ -99,7 +99,7 @@ function LoginPage() {
             />
           </div>
           <div className={styles.login__password}>
-            <Input
+            <Input01
               placeholder="비밀번호를 입력해 주세요"
               onChange={(e) =>
                 setInput((prev) => ({ ...prev, password: e.target.value }))
@@ -108,9 +108,9 @@ function LoginPage() {
           </div>
           {error && <span className={styles["error-message"]}>{error}</span>}
           <div className={styles.login__proceed}>
-            <Button disabled={!input.email || !input.password}>
+            <Button01 disabled={!input.email || !input.password}>
               로그인 하기
-            </Button>
+            </Button01>
           </div>
         </div>
       </form>
