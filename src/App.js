@@ -1,6 +1,6 @@
 import "./App.scss";
 import { Routes, Route } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
 import axios from "axios";
 
@@ -11,42 +11,41 @@ import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import UserFormPage from "./pages/UserFormPage";
 import CoffeeFormPage from "./pages/CoffeeFormPage";
-import { selectUser, setUser } from "./features/user/userSlice";
+import { setUser } from "./features/user/userSlice";
 import ApiService from "./services/Api";
+import { useEffect } from "react";
 
 const ApiInstance = new ApiService(axios);
 
 function App() {
   const dispatch = useDispatch();
-  const user = useSelector(selectUser);
 
-  const { isLoading, data } = useQuery("auth-status-check", ApiInstance.login);
+  const { refetch } = useQuery("auto-login", ApiInstance.login, {
+    onSuccess: ({ data }) => {
+      if (data.success) {
+        window.ReactNativeWebView.postMessage(`token ${data.token}`);
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
+        const user = {
+          id: data.user._id,
+          name: data.user.name,
+          email: data.user.email,
+          location: data.user.location,
+        };
 
-  if (data.data.success && window.isNativeApp) {
-    window.ReactNativeWebView.postMessage(`token ${data.data.token}`);
+        dispatch(setUser(user));
+      }
+    },
+    staleTime: Infinity,
+  });
 
-    const { _id, name, email, location } = data.data.user;
-    const user = {
-      id: _id,
-      name,
-      email,
-      location,
-    };
-
-    dispatch(setUser(user));
-  }
-
-  const isLoggedIn = !!user.name;
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   return (
     <>
-      <h1>{JSON.stringify(user)}</h1>
       <Routes>
-        <Route element={<ProtectedRoutes isLoggedIn={isLoggedIn} />}>
+        <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/coffee-form" element={<CoffeeFormPage />} />
         </Route>
