@@ -22,26 +22,24 @@ function LoginPage() {
 
   const { mutate } = useMutation((input) => ApiInstance.login({ ...input }), {
     onSuccess: ({ data }) => {
-      if (data.success) {
-        const user = {
-          id: data.user._id,
-          name: data.user.name,
-          email: data.user.email,
-          location: data.user.location,
-          token: data.token,
-        };
-
-        if (window.ReactNativeWebView) {
-          window.ReactNativeWebView.postMessage(`token ${data.token}`);
-        }
-
-        dispatch(setUser(user));
-        navigate("/");
-      }
-
       if (!data.success) {
-        setError("로그인 정보가 불일치 합니다.");
+        return setError("로그인 정보가 불일치 합니다.");
       }
+
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(`token ${data.token}`);
+      }
+
+      const user = {
+        id: data.user._id,
+        name: data.user.name,
+        email: data.user.email,
+        location: data.user.location,
+        token: data.token,
+      };
+
+      dispatch(setUser(user));
+      navigate("/");
     },
   });
 

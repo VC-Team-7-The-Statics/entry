@@ -3,17 +3,16 @@ import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { useEffect } from "react";
 
 import WelcomePage from "./pages/WelcomePage";
 import HomePage from "./pages/HomePage";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
-import UserFormPage from "./pages/UserFormPage";
 import CoffeeFormPage from "./pages/CoffeeFormPage";
 import { setUser } from "./features/user/userSlice";
 import ApiService from "./services/Api";
-import { useEffect } from "react";
 
 const ApiInstance = new ApiService(axios);
 
@@ -53,12 +52,11 @@ function App() {
       <Routes>
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/coffee-form" element={<CoffeeFormPage />} />
+          <Route path="/coffee-form/:userId" element={<CoffeeFormPage />} />
         </Route>
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/user-form" element={<UserFormPage />} />
       </Routes>
     </>
   );

@@ -60,6 +60,7 @@ function HomePage() {
           company={data.recommendation[0].company}
           expertise={data.recommendation[0].expertise}
           languages={data.recommendation[0].languages}
+          userId={data.recommendation[0]._id}
           key={i}
           lastUserCardRef={
             users.pages.length - 1 === i ? lastUserCardRef : null

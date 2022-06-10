@@ -88,13 +88,9 @@ function SignupPage() {
     }
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChange = useCallback(
-    memoize((credential) => (e) => {
-      setCredentials((prev) => ({ ...prev, [credential]: e.target.value }));
-    }),
-    []
-  );
+  const handleChange = (credential) => (e) => {
+    setCredentials((prev) => ({ ...prev, [credential]: e.target.value }));
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleLanguageSelect = useCallback(
