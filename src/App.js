@@ -1,5 +1,5 @@
 import "./App.scss";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -44,27 +44,6 @@ function App() {
 
   return (
     <>
-      {/* FIX ME: 모바일에서 라우팅 기능이 없어 라우팅이 용이하게 임의로 작성한 코드입니다.  */}
-      <ul>
-        <li>
-          <Link to="/">/</Link>
-        </li>
-        <li>
-          <Link to="/coffee-form">/coffee-form</Link>
-        </li>
-        <li>
-          <Link to="/welcome">/welcome</Link>
-        </li>
-        <li>
-          <Link to="/signup">/signup</Link>
-        </li>
-        <li>
-          <Link to="/login">/login</Link>
-        </li>
-        <li>
-          <Link to="/user-form">/user-form</Link>
-        </li>
-      </ul>
       <Routes>
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<HomePage />} />
