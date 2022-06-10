@@ -20,10 +20,12 @@ const ApiInstance = new ApiService(axios);
 function App() {
   const dispatch = useDispatch();
 
-  const { refetch } = useQuery("auto-login", ApiInstance.login, {
+  const { isLoading, refetch } = useQuery("auto-login", ApiInstance.login, {
     onSuccess: ({ data }) => {
       if (data.success) {
-        window.ReactNativeWebView.postMessage(`token ${data.token}`);
+        if (window.isNativeApp) {
+          window.ReactNativeWebView.postMessage(`token ${data.token}`);
+        }
 
         const user = {
           id: data.user._id,
@@ -41,6 +43,10 @@ function App() {
   useEffect(() => {
     refetch();
   }, [refetch]);
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <>
