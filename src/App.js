@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
 import axios from "axios";
-import { useEffect } from "react";
 
 import WelcomePage from "./pages/WelcomePage";
 import HomePage from "./pages/HomePage";
@@ -19,7 +18,7 @@ const ApiInstance = new ApiService(axios);
 function App() {
   const dispatch = useDispatch();
 
-  const { isLoading, refetch } = useQuery("auto-login", ApiInstance.login, {
+  const { isLoading } = useQuery("auto-login", ApiInstance.login, {
     onSuccess: ({ data }) => {
       if (data.success) {
         if (window.isNativeApp) {
@@ -30,6 +29,12 @@ function App() {
           id: data.user._id,
           name: data.user.name,
           email: data.user.email,
+          image: data.user.image,
+          languages: data.user.languages,
+          expertise: data.user.expertise,
+          price: data.user.price,
+          likes: data.user.likes,
+          match: data.user.match,
           location: data.user.location,
         };
 
@@ -38,10 +43,6 @@ function App() {
     },
     staleTime: Infinity,
   });
-
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
 
   if (isLoading) {
     return <h1>Loading...</h1>;

@@ -10,26 +10,31 @@ import ApiService from "../services/Api";
 
 const ApiInstance = new ApiService(axios);
 
+const emptyHeart = "./icons/white-heart.png";
+const filledHeart = "./icons/white-heart-filled.png";
+
 function UserCardHeartIcon({ onError, userId }) {
   const user = useSelector(selectUser);
 
-  const [image, setImage] = useState("./icons/white-heart.png");
-
-  const { mutate } = useMutation(
-    (body) => ApiInstance.API.post("/user/like", { ...body }),
-    {
-      onSuccess: ({ data }) => {
-        if (!data.success) {
-          setImage("./icons/white-heart.png");
-          onError("요청에 실패했습니다");
-        }
-      },
-      onError: () => {
-        setImage("./icons/white-heart.png");
-        onError("네트워크 요청에 실패했습니다");
-      },
-    }
+  const [liked, setLiked] = useState(user.likes.includes(userId) || false);
+  const [image, setImage] = useState(
+    user.likes.includes(userId) ? filledHeart : emptyHeart
   );
+
+  const { mutate } = useMutation((body) => ApiInstance.likeUser({ ...body }), {
+    onSuccess: ({ data }) => {
+      if (!data.success) {
+        setImage(emptyHeart);
+        setLiked(false);
+        onError("요청에 실패했습니다");
+      }
+    },
+    onError: () => {
+      setImage(emptyHeart);
+      setLiked(false);
+      onError("네트워크 요청에 실패했습니다");
+    },
+  });
 
   const handleLike = () => {
     const requestBody = {
@@ -37,8 +42,9 @@ function UserCardHeartIcon({ onError, userId }) {
       to: userId,
     };
 
-    setImage("./icons/white-heart-filled.png");
-    mutate(requestBody);
+    setImage(filledHeart);
+    setLiked(true);
+    !liked && mutate(requestBody);
   };
 
   return (

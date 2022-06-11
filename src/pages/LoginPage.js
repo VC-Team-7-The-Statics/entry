@@ -34,8 +34,13 @@ function LoginPage() {
         id: data.user._id,
         name: data.user.name,
         email: data.user.email,
+        image: data.user.image,
+        languages: data.user.languages,
+        expertise: data.user.expertise,
+        price: data.user.price,
+        likes: data.user.likes,
+        match: data.user.match,
         location: data.user.location,
-        token: data.token,
       };
 
       dispatch(setUser(user));

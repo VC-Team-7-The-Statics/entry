@@ -10,11 +10,6 @@ import ApiService from "../services/Api";
 
 const ApiInstance = new ApiService(axios);
 
-const infiniteFetcher =
-  (userId) =>
-  ({ pageParam = 0 }) =>
-    ApiInstance.API.get(`/user/${userId}/recommend?p=${pageParam}`);
-
 function HomePage() {
   const user = useSelector(selectUser);
 
@@ -23,7 +18,7 @@ function HomePage() {
     data: users,
     hasNextPage,
     fetchNextPage,
-  } = useInfiniteQuery("users", infiniteFetcher(user.id), {
+  } = useInfiniteQuery("users", ApiInstance.fetchInfinite(user.id), {
     getNextPageParam: (lastPage) => {
       if (lastPage.data.isLastPage) return;
 

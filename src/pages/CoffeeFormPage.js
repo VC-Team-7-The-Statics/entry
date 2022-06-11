@@ -26,7 +26,7 @@ function CoffeeFormPage() {
     content: "",
   });
 
-  useQuery("price", () => ApiInstance.API.get(`/user/${userId}/price`), {
+  useQuery("price", ApiInstance.getUserCoffeePrice(userId), {
     staleTime: Infinity,
     onSuccess: ({ data }) => {
       if (!data.success) {
@@ -41,7 +41,7 @@ function CoffeeFormPage() {
   });
 
   const { mutate } = useMutation(
-    (coffeeForm) => ApiInstance.API.post("/coffee-form", { ...coffeeForm }),
+    (coffeeForm) => ApiInstance.sendCoffeeForm({ ...coffeeForm }),
     {
       onSuccess: ({ data }) => {
         if (!data.success) {
@@ -89,8 +89,8 @@ function CoffeeFormPage() {
         onChange={handleContentChange}
       />
       <span>
-        <span className="username"></span>님의 커피챗 가격은 {userInfo.price}원
-        입니다
+        <span className="username">{userInfo.name}</span> 님의 커피챗 가격은{" "}
+        {userInfo.price}원 입니다
       </span>
       {error && <span>{error}</span>}
       <Button01 type="submit" onClick={handleSubmit}>

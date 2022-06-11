@@ -13,6 +13,22 @@ class ApiService {
   }
 
   login = (body) => this.API.post("/auth/login", { ...body });
+
+  signup = (credentials) => this.API.post("/auth/signup", { ...credentials });
+
+  likeUser = (body) => this.API.post("/user/like", { ...body });
+
+  sendCoffeeForm = (coffeeForm) =>
+    this.API.post("/coffee-form", { ...coffeeForm });
+
+  fetchInfinite =
+    (userId) =>
+    ({ pageParam = 0 }) =>
+      this.API.get(`/user/${userId}/recommend?p=${pageParam}`);
+
+  getLanguages = () => this.API.get("/languages");
+
+  getUserCoffeePrice = (userId) => () => this.API.get(`/user/${userId}/price`);
 }
 
 export default ApiService;
