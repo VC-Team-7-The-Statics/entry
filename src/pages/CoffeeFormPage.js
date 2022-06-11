@@ -1,22 +1,47 @@
 import { Input01, Textarea, Button01 } from "@the-statics/shared-components";
 import { useState } from "react";
-import ApiService from "../services/Api";
 import axios from "axios";
-import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "react-query";
+import { useNavigate, useParams } from "react-router-dom";
+
+import ApiService from "../services/Api";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/user/userSlice";
 
 const ApiInstance = new ApiService(axios);
 
 function CoffeeFormPage() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState("");
-  const coffeeForm = { title, content };
+  const user = useSelector(selectUser);
 
   const navigate = useNavigate();
-  const mutation = useMutation(
-    (coffeeForm) => ApiInstance.API.post("/coffee-form", { ...coffeeForm }),
+  const { userId } = useParams();
+
+  const [error, setError] = useState("");
+  const [userInfo, setUserInfo] = useState({
+    price: "",
+    name: "",
+  });
+  const [input, setInput] = useState({
+    title: "",
+    content: "",
+  });
+
+  useQuery("price", ApiInstance.getUserCoffeePrice(userId), {
+    staleTime: Infinity,
+    onSuccess: ({ data }) => {
+      if (!data.success) {
+        setError("가격을 불러오지 못했습니다.");
+      }
+
+      setUserInfo({
+        price: data.price,
+        name: data.name,
+      });
+    },
+  });
+
+  const { mutate } = useMutation(
+    (coffeeForm) => ApiInstance.sendCoffeeForm({ ...coffeeForm }),
     {
       onSuccess: ({ data }) => {
         if (!data.success) {
@@ -31,40 +56,44 @@ function CoffeeFormPage() {
     }
   );
 
-  const onSubmit = (e) => {
-    mutation.mutate({ ...coffeeForm });
+  const handleChange = (type) => (e) => {
+    setInput((prev) => ({ ...prev, [type]: e.target.value }));
   };
 
-  const onInputChange = (e) => {
-    if (e.target.id === "title") {
-      setTitle(e.target.value);
-    }
+  const handleTitleChange = handleChange("title");
+  const handleContentChange = handleChange("content");
 
-    if (e.target.id === "content") {
-      setContent(e.target.value);
-    }
+  const handleSubmit = () => {
+    const coffeeForm = {
+      to: userId,
+      from: user.id,
+      title: input.title,
+      content: input.content,
+    };
+
+    mutate(coffeeForm);
   };
 
   return (
     <div>
       <h1>커피챗 요청</h1>
-      <p>
-        <span className="username"></span>에게 커피챗 요청하기
-      </p>
+      <span>
+        <span className="username">{userInfo.name}</span> 님에게 커피챗 요청하기
+      </span>
       <Input01
         placeholder="제목을 입력해주세요."
-        id={"title"}
-        onChange={onInputChange}
+        onChange={handleTitleChange}
       />
       <Textarea
         placeholder="현재 겪고 있는 문제를 구체적으로 설명해주세요."
-        id={"content"}
-        onChange={onInputChange}
+        onChange={handleContentChange}
       />
-      <p>
-        <span className="username"></span>님의 커피챗 가격은 5,000원 입니다
-      </p>
-      <Button01 type="submit" onClick={onSubmit}>
+      <span>
+        <span className="username">{userInfo.name}</span> 님의 커피챗 가격은{" "}
+        {userInfo.price}원 입니다
+      </span>
+      {error && <span>{error}</span>}
+      <Button01 type="submit" onClick={handleSubmit}>
         커피챗 요청하기
       </Button01>
     </div>

@@ -4,8 +4,12 @@ const initialState = {
   id: "",
   name: "",
   email: "",
-  location: [],
-  token: "",
+  location: {},
+  image: "",
+  price: "",
+  likes: [],
+  liked: [],
+  match: [],
 };
 
 const userSlice = createSlice({
@@ -14,22 +18,37 @@ const userSlice = createSlice({
   reducers: {
     setUser: (
       state,
-      { payload: { id, name, email, location = [], token } }
+      {
+        payload: {
+          id,
+          name,
+          email,
+          location = {},
+          image,
+          expertise,
+          price,
+          likes = [],
+          liked = [],
+          match = [],
+        },
+      }
     ) => {
       state.id = id;
       state.name = name;
       state.email = email;
       state.location = location;
-      state.token = token;
-    },
-    setToken: (state, { payload }) => {
-      state.token = payload;
+      state.image = image;
+      state.expertise = expertise;
+      state.price = price;
+      state.likes = likes;
+      state.liked = liked;
+      state.match = match;
     },
   },
 });
 
 export const selectUser = (state) => state.user;
 
-export const { setUser, setToken } = userSlice.actions;
+export const { setUser } = userSlice.actions;
 
 export default userSlice.reducer;

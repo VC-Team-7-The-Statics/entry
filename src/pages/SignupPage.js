@@ -6,33 +6,16 @@ import {
 } from "@the-statics/shared-components";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import memoize from "fast-memoize";
-import SelectLanguage from "../components/SelectLanguage";
-import { useMutation } from "react-query";
-import ApiService from "../services/Api";
 import axios from "axios";
 import { debounce } from "lodash";
 import { useDispatch } from "react-redux";
-import { setUser } from "../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
-import { SignUpSchema } from "../services/Validation";
 
-const LANGUAGES_MOCK = [
-  {
-    language: "javascript",
-    image: "",
-    stack: ["react", "vue", "express", "nodejs", "nestjs", "tensorflow"],
-  },
-  {
-    language: "python",
-    image: "",
-    stack: ["django", "flask", "tensorflow"],
-  },
-  {
-    language: "java",
-    image: "",
-    stack: ["spring"],
-  },
-];
+import SelectLanguage from "../components/SelectLanguage";
+import { useMutation, useQuery } from "react-query";
+import ApiService from "../services/Api";
+import { setUser } from "../features/user/userSlice";
+import { SignUpSchema } from "../services/Validation";
 
 const ApiInstance = new ApiService(axios);
 
@@ -60,7 +43,7 @@ function SignupPage() {
   const img = useMemo(() => base64, [base64]);
 
   const mutation = useMutation(
-    (credentials) => ApiInstance.API.post("/auth/signup", { ...credentials }),
+    (credentials) => ApiInstance.signup({ ...credentials }),
     {
       onSuccess: ({ data }) => {
         if (!data.success) {
@@ -75,8 +58,13 @@ function SignupPage() {
           id: data.user._id,
           name: data.user.name,
           email: data.user.email,
+          image: data.user.image,
+          languages: data.user.languages,
+          expertise: data.user.expertise,
+          price: data.user.price,
+          likes: data.user.likes,
+          match: data.user.match,
           location: data.user.location,
-          token: data.token,
         };
 
         dispatch(setUser(user));
@@ -88,13 +76,13 @@ function SignupPage() {
     }
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleChange = useCallback(
-    memoize((credential) => (e) => {
-      setCredentials((prev) => ({ ...prev, [credential]: e.target.value }));
-    }),
-    []
-  );
+  const { data } = useQuery("languages", ApiInstance.getLanguages, {
+    staleTime: Infinity,
+  });
+
+  const handleChange = (credential) => (e) => {
+    setCredentials((prev) => ({ ...prev, [credential]: e.target.value }));
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleLanguageSelect = useCallback(
@@ -175,7 +163,7 @@ function SignupPage() {
       </div>
       <h1 className="title">기술</h1>
       <div className="langauages-and-stacks-container">
-        {LANGUAGES_MOCK.map((languageBlock, i) => (
+        {data?.data.languages.map((languageBlock, i) => (
           <SelectLanguage
             languageBlock={languageBlock}
             key={i}

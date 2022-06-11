@@ -9,26 +9,32 @@ import HomePage from "./pages/HomePage";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
-import UserFormPage from "./pages/UserFormPage";
 import CoffeeFormPage from "./pages/CoffeeFormPage";
 import { setUser } from "./features/user/userSlice";
 import ApiService from "./services/Api";
-import { useEffect } from "react";
 
 const ApiInstance = new ApiService(axios);
 
 function App() {
   const dispatch = useDispatch();
 
-  const { refetch } = useQuery("auto-login", ApiInstance.login, {
+  const { isLoading } = useQuery("auto-login", ApiInstance.login, {
     onSuccess: ({ data }) => {
       if (data.success) {
-        window.ReactNativeWebView.postMessage(`token ${data.token}`);
+        if (window.isNativeApp) {
+          window.ReactNativeWebView.postMessage(`token ${data.token}`);
+        }
 
         const user = {
           id: data.user._id,
           name: data.user.name,
           email: data.user.email,
+          image: data.user.image,
+          languages: data.user.languages,
+          expertise: data.user.expertise,
+          price: data.user.price,
+          likes: data.user.likes,
+          match: data.user.match,
           location: data.user.location,
         };
 
@@ -38,21 +44,20 @@ function App() {
     staleTime: Infinity,
   });
 
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
   return (
     <>
       <Routes>
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/coffee-form" element={<CoffeeFormPage />} />
+          <Route path="/coffee-form/:userId" element={<CoffeeFormPage />} />
         </Route>
         <Route path="/welcome" element={<WelcomePage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/user-form" element={<UserFormPage />} />
       </Routes>
     </>
   );
