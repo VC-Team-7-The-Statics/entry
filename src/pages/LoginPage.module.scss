@@ -1,0 +1,46 @@
+@use "/src/styles/theme";
+
+.LoginPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.logo {
+  @include theme.logo-center;
+}
+
+.login-form {
+  width: 100%;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.login__email {
+  width: 100%;
+  margin-top: 60px;
+}
+
+.login__password {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.login__proceed {
+  width: calc(100% - 50px);
+  position: absolute;
+  bottom: 50px;
+}
+
+.error-message {
+  font-size: 12px;
+}

@@ -1,0 +1,11 @@
+.icon-container {
+  position: absolute;
+  bottom: 37px;
+  right: 25px;
+  box-shadow: 5px 10px 70px #00000021;
+
+  & span {
+    color: white;
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,39 @@
+.left-bar {
+  position: absolute;
+  color: white;
+  bottom: 30px;
+  left: 25px;
+  width: 50%;
+}
+
+.left-bar__name {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.left-bar__container {
+  padding: 5px 0;
+}
+
+.left-bar__container__text-box:first-child {
+  font-size: 15px;
+  margin-bottom: 10px;
+
+  & span {
+    margin-right: 7px;
+  }
+}
+
+.left-bar__container__text-box:not(:first-child) {
+  font-size: 15px;
+  margin: 2px 0;
+
+  & span {
+    margin-right: 10px;
+  }
+}
+
+hr {
+  border: 0px;
+  border-top: 1px solid white;
+}

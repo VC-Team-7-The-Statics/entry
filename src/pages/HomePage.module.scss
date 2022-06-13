@@ -1,0 +1,12 @@
+.app__videos {
+  position: relative;
+  height: 100vh;
+  overflow: scroll;
+  width: calc(100% + 50px);
+  margin-left: -25px;
+  max-width: 500px;
+}
+
+.app__videos::-webkit-scrollbar {
+  display: none;
+}
