@@ -45,7 +45,6 @@ function App() {
 
       navigate("/login");
     },
-    // staleTime: Infinity,
   });
 
   if (isLoading) {
