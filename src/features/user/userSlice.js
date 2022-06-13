@@ -8,7 +8,6 @@ const initialState = {
   image: "",
   price: "",
   likes: [],
-  liked: [],
   match: [],
 };
 
@@ -28,7 +27,6 @@ const userSlice = createSlice({
           expertise,
           price,
           likes = [],
-          liked = [],
           match = [],
         },
       }
@@ -41,7 +39,6 @@ const userSlice = createSlice({
       state.expertise = expertise;
       state.price = price;
       state.likes = likes;
-      state.liked = liked;
       state.match = match;
     },
   },

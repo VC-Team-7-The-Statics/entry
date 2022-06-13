@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "../features/user/userSlice";
 import ApiService from "../services/Api";
 import { LogInSchema } from "../services/Validation";
+import { wait } from "../utils/helpers";
 
 const ApiInstance = new ApiService(axios);
 
@@ -21,7 +22,7 @@ function LoginPage() {
   const [error, setError] = useState("");
 
   const { mutate } = useMutation((input) => ApiInstance.login({ ...input }), {
-    onSuccess: ({ data }) => {
+    onSuccess: async ({ data }) => {
       if (!data.success) {
         return setError("로그인 정보가 불일치 합니다.");
       }
@@ -29,6 +30,8 @@ function LoginPage() {
       if (window.ReactNativeWebView) {
         window.ReactNativeWebView.postMessage(`token ${data.token}`);
       }
+
+      await wait(0.5);
 
       const user = {
         id: data.user._id,

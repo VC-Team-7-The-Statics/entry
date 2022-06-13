@@ -48,20 +48,24 @@ function HomePage() {
 
   return (
     <div className={styles.app__videos}>
-      {users.pages.map(({ data }, i) => (
-        <UserCard
-          image={data.recommendation[0].image}
-          name={data.recommendation[0].name}
-          company={data.recommendation[0].company}
-          expertise={data.recommendation[0].expertise}
-          languages={data.recommendation[0].languages}
-          userId={data.recommendation[0]._id}
-          key={i}
-          lastUserCardRef={
-            users.pages.length - 1 === i ? lastUserCardRef : null
-          }
-        />
-      ))}
+      {users.pages.map(
+        ({ data }, i) =>
+          data.success &&
+          data.recommendation.length && (
+            <UserCard
+              image={data.recommendation[0].image}
+              name={data.recommendation[0].name}
+              company={data.recommendation[0].company}
+              expertise={data.recommendation[0].expertise}
+              languages={data.recommendation[0].languages}
+              userId={data.recommendation[0]._id}
+              key={i}
+              lastUserCardRef={
+                users.pages.length - 1 === i ? lastUserCardRef : null
+              }
+            />
+          )
+      )}
     </div>
   );
 }
