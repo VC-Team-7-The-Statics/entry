@@ -1,5 +1,5 @@
 import "./App.scss";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -17,6 +17,8 @@ const ApiInstance = new ApiService(axios);
 
 function App() {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const { isLoading } = useQuery("auto-login", ApiInstance.login, {
     onSuccess: ({ data }) => {
@@ -38,10 +40,11 @@ function App() {
           location: data.user.location,
         };
 
-        dispatch(setUser(user));
+        return dispatch(setUser(user));
       }
+
+      navigate("/login");
     },
-    staleTime: Infinity,
   });
 
   if (isLoading) {

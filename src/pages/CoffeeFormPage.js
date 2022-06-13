@@ -60,9 +60,6 @@ function CoffeeFormPage() {
     setInput((prev) => ({ ...prev, [type]: e.target.value }));
   };
 
-  const handleTitleChange = handleChange("title");
-  const handleContentChange = handleChange("content");
-
   const handleSubmit = () => {
     const coffeeForm = {
       to: userId,
@@ -82,11 +79,11 @@ function CoffeeFormPage() {
       </span>
       <Input01
         placeholder="제목을 입력해주세요."
-        onChange={handleTitleChange}
+        onChange={handleChange("title")}
       />
       <Textarea
         placeholder="현재 겪고 있는 문제를 구체적으로 설명해주세요."
-        onChange={handleContentChange}
+        onChange={handleChange("content")}
       />
       <span>
         <span className="username">{userInfo.name}</span> 님의 커피챗 가격은{" "}
