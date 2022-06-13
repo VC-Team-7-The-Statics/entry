@@ -16,7 +16,7 @@ const filledHeart = "./icons/white-heart-filled.png";
 function UserCardHeartIcon({ onError, userId }) {
   const user = useSelector(selectUser);
 
-  const [liked, setLiked] = useState(user.likes.includes(userId) || false);
+  const [liked, setLiked] = useState(user.likes.includes(userId));
   const [image, setImage] = useState(
     user.likes.includes(userId) ? filledHeart : emptyHeart
   );
@@ -50,7 +50,7 @@ function UserCardHeartIcon({ onError, userId }) {
   return (
     <div
       className={styles["icon-container"]}
-      onClick={debounce(handleLike, 500)}
+      onClick={debounce(handleLike, 250)}
     >
       <img
         src={image}
