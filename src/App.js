@@ -41,19 +41,12 @@ function App() {
     },
   });
 
-  const REMOVE_TOKEN = () => {
-    if (window.isNativeApp) {
-      window.ReactNativeWebView.postMessage(`token broken-jwt`);
-    }
-  };
-
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
 
   return (
     <>
-      <button onClick={REMOVE_TOKEN}>토큰 망가뜨리기</button>
       <Routes>
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<HomePage />} />
