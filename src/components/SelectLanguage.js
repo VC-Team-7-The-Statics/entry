@@ -1,3 +1,4 @@
+import styles from "./SelectLanguage.module.scss";
 import { Title } from "@the-statics/shared-components";
 import { useEffect, useState } from "react";
 
@@ -10,7 +11,7 @@ function SelectLanguage({ languageBlock, onSubmit }) {
     const stack = e.target.innerText;
 
     if (selectedStacks.includes(stack)) {
-      setSelectedStacks((prev) => prev.filter((s) => s !== stack));
+      return setSelectedStacks((prev) => prev.filter((s) => s !== stack));
     }
 
     setSelectedStacks((prev) => [...prev, e.target.innerText]);
@@ -28,7 +29,7 @@ function SelectLanguage({ languageBlock, onSubmit }) {
           key={i}
           onClick={handleSelect}
           className={
-            selectedStacks.includes(stack) ? "selected" : "not-selected"
+            selectedStacks.includes(stack) ? styles.selected : styles.idle
           }
         >
           {stack}

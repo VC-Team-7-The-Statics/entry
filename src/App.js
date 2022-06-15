@@ -1,5 +1,5 @@
 import "./App.scss";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -18,15 +18,12 @@ const ApiInstance = new ApiService(axios);
 function App() {
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-
   const { isLoading } = useQuery("auto-login", ApiInstance.login, {
     onSuccess: ({ data }) => {
       if (data.success) {
         if (window.isNativeApp) {
           window.ReactNativeWebView.postMessage(`token ${data.token}`);
         }
-
         const user = {
           id: data.user._id,
           name: data.user.name,
@@ -39,13 +36,16 @@ function App() {
           match: data.user.match,
           location: data.user.location,
         };
-
         return dispatch(setUser(user));
       }
-
-      navigate("/login");
     },
   });
+
+  const REMOVE_TOKEN = () => {
+    if (window.isNativeApp) {
+      window.ReactNativeWebView.postMessage(`token broken-jwt`);
+    }
+  };
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -53,6 +53,7 @@ function App() {
 
   return (
     <>
+      <button onClick={REMOVE_TOKEN}>토큰 망가뜨리기</button>
       <Routes>
         <Route element={<ProtectedRoutes />}>
           <Route path="/" element={<HomePage />} />
