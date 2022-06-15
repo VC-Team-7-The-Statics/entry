@@ -1,23 +1,10 @@
 import styles from "./WelcomePage.module.scss";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button01 } from "@the-statics/shared-components";
-import { useSelector } from "react-redux";
 
-import { selectUser } from "../features/user/userSlice";
+import { Button01 } from "@the-statics/shared-components";
 
 function WelcomePage() {
-  const user = useSelector(selectUser);
-
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const isLoggedIn = !!user.name;
-
-    if (isLoggedIn) {
-      navigate("/");
-    }
-  }, [user.name, navigate]);
 
   return (
     <div className={styles.WelcomePage}>
