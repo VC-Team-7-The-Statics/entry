@@ -143,6 +143,7 @@ function SignupPage() {
           onChange={handleChange("email")}
         />
         <Input01
+          type="password"
           placeholder="비밀번호를 입력해주세요."
           onChange={handleChange("password")}
         />
@@ -187,7 +188,9 @@ function SignupPage() {
           onChange={handleChange("price")}
         />
         <Title value={error} />
-        <Button02 onClick={debounce(handleSubmit, 500)}>등록하기</Button02>
+        <div className={styles["submit-button-container"]}>
+          <Button02 onClick={debounce(handleSubmit, 500)}>등록하기</Button02>
+        </div>
       </div>
     </div>
   );

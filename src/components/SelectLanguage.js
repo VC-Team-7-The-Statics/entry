@@ -1,6 +1,5 @@
-import { Title } from "@the-statics/shared-components";
+import styles from "./SelectLanguage.module.scss";
 import { useEffect, useState } from "react";
-import styles from "../pages/SignupPage.module.scss";
 
 function SelectLanguage({ languageBlock, onSubmit }) {
   const [selectedStacks, setSelectedStacks] = useState([]);
@@ -11,7 +10,7 @@ function SelectLanguage({ languageBlock, onSubmit }) {
     const stack = e.target.innerText;
 
     if (selectedStacks.includes(stack)) {
-      setSelectedStacks((prev) => prev.filter((s) => s !== stack));
+      return setSelectedStacks((prev) => prev.filter((s) => s !== stack));
     }
 
     setSelectedStacks((prev) => [...prev, e.target.innerText]);
@@ -23,17 +22,16 @@ function SelectLanguage({ languageBlock, onSubmit }) {
 
   return (
     <>
-      <Title
-        value={languageBlock.language}
-        className={styles["language-title"]}
-      />
-      <ul className="stacks-container">
+      <h1 className={styles.language}>{languageBlock.language}</h1>
+      <ul className={styles.stacks}>
         {stacks.map((stack, i) => (
           <li
             key={i}
             onClick={handleSelect}
             className={
-              selectedStacks.includes(stack) ? "selected" : "not-selected"
+              selectedStacks.includes(stack)
+                ? `${styles.token} ${styles.selected}`
+                : `${styles.token}`
             }
           >
             {stack}

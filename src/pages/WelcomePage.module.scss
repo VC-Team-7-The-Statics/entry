@@ -1,15 +1,43 @@
-@use "/src/styles/theme";
+@import url("https://fonts.googleapis.com/css2?family=Joan&display=swap");
 
 .WelcomePage {
+  position: relative;
+  padding: 0px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
-}
 
-.logo {
-  @include theme.logo-center;
+  .intro-container {
+    text-align: center;
+
+    .logo-container {
+      position: absolute;
+      top: 0px;
+      left: 50%;
+      margin-left: -150px;
+    }
+
+    .title-container {
+      display: block;
+
+      .title {
+        font-size: 50px;
+        font-weight: bolder;
+        font-family: "Joan", serif;
+        letter-spacing: 1px;
+      }
+    }
+
+    .subtitle-container {
+      .subtitle {
+        font-size: 15px;
+        letter-spacing: -1px;
+        font-weight: bolder;
+      }
+    }
+  }
 }
 
 .selection {
@@ -22,4 +50,17 @@
 
 .selection__signup {
   margin: 20px 0;
+}
+
+.selection__login__button-container {
+  color: white;
+}
+
+.selection__signup__button-container {
+  color: black;
+}
+
+.selection__login__button-container,
+.selection__signup__button-container {
+  font-size: 15px;
 }

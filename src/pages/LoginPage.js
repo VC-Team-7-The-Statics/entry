@@ -64,7 +64,6 @@ function LoginPage() {
 
   return (
     <div className={styles.LoginPage}>
-      <img src="/icons/app-logo.png" alt="logo" className={styles.logo} />
       <form className={styles["login-form"]} onSubmit={handleSubmit}>
         <div className={styles.login}>
           <div className={styles.login__email}>
@@ -77,13 +76,16 @@ function LoginPage() {
           </div>
           <div className={styles.login__password}>
             <Input01
+              type="password"
               placeholder="비밀번호를 입력해 주세요"
               onChange={(e) =>
                 setInput((prev) => ({ ...prev, password: e.target.value }))
               }
             />
           </div>
-          {error && <span className={styles["error-message"]}>{error}</span>}
+          <div className={styles["error-message-container"]}>
+            {error && <span className={styles["error-message"]}>{error}</span>}
+          </div>
           <div className={styles.login__proceed}>
             <Button02 disabled={!input.email || !input.password}>
               로그인 하기
@@ -91,7 +93,9 @@ function LoginPage() {
           </div>
         </div>
       </form>
-      <div onClick={() => navigate(-1)}>뒤로</div>
+      <div className={styles.back} onClick={() => navigate("/welcome")}>
+        뒤로
+      </div>
     </div>
   );
 }

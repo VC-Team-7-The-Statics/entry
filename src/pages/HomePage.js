@@ -20,6 +20,7 @@ function HomePage() {
     hasNextPage,
     fetchNextPage,
   } = useInfiniteQuery("users", ApiInstance.fetchInfinite(user.id), {
+    staleTime: Infinity,
     getNextPageParam: (lastPage) => {
       if (lastPage.data.isLastPage) return;
 
