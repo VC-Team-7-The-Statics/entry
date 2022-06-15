@@ -7,6 +7,7 @@ import axios from "axios";
 import { selectUser } from "../features/user/userSlice";
 import UserCard from "../components/UserCard";
 import ApiService from "../services/Api";
+import CoffeeLoading from "../components/CoffeeLoading";
 
 const ApiInstance = new ApiService(axios);
 
@@ -44,7 +45,7 @@ function HomePage() {
     [fetchNextPage, isLoading, hasNextPage]
   );
 
-  if (isLoading) return <h1>LOADING.....!!!!</h1>;
+  if (isLoading) return <CoffeeLoading />;
 
   return (
     <div className={styles.app__videos}>

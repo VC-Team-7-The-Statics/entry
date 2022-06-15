@@ -1,5 +1,5 @@
 import styles from "./LoginPage.module.scss";
-import { Button01, Input01 } from "@the-statics/shared-components";
+import { Button02, Input01 } from "@the-statics/shared-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
@@ -85,9 +85,9 @@ function LoginPage() {
           </div>
           {error && <span className={styles["error-message"]}>{error}</span>}
           <div className={styles.login__proceed}>
-            <Button01 disabled={!input.email || !input.password}>
+            <Button02 disabled={!input.email || !input.password}>
               로그인 하기
-            </Button01>
+            </Button02>
           </div>
         </div>
       </form>
