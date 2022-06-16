@@ -1,5 +1,4 @@
 import styles from "./SelectLanguage.module.scss";
-import { Title } from "@the-statics/shared-components";
 import { useEffect, useState } from "react";
 
 function SelectLanguage({ languageBlock, onSubmit }) {
@@ -23,18 +22,22 @@ function SelectLanguage({ languageBlock, onSubmit }) {
 
   return (
     <>
-      <Title value={languageBlock.language} />
-      {stacks.map((stack, i) => (
-        <div
-          key={i}
-          onClick={handleSelect}
-          className={
-            selectedStacks.includes(stack) ? styles.selected : styles.idle
-          }
-        >
-          {stack}
-        </div>
-      ))}
+      <h1 className={styles.language}>{languageBlock.language}</h1>
+      <ul className={styles.stacks}>
+        {stacks.map((stack, i) => (
+          <li
+            key={i}
+            onClick={handleSelect}
+            className={
+              selectedStacks.includes(stack)
+                ? `${styles.token} ${styles.selected}`
+                : `${styles.token}`
+            }
+          >
+            {stack}
+          </li>
+        ))}
+      </ul>
     </>
   );
 }

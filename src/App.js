@@ -12,6 +12,7 @@ import LoginPage from "./pages/LoginPage";
 import CoffeeFormPage from "./pages/CoffeeFormPage";
 import { setUser } from "./features/user/userSlice";
 import ApiService from "./services/Api";
+import CoffeeLoading from "./components/CoffeeLoading";
 
 const ApiInstance = new ApiService(axios);
 
@@ -41,9 +42,7 @@ function App() {
     },
   });
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
+  if (isLoading) return <CoffeeLoading />;
 
   return (
     <>
