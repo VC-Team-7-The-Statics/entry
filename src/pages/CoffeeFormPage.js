@@ -75,7 +75,7 @@ function CoffeeFormPage() {
     <div className={styles["request-container"]}>
       <h1 className={styles.title}>커피챗 요청</h1>
       <div className={styles.content}>
-        <span>
+        <span className={styles.subtitle}>
           <span className="username">{userInfo.name}</span> 님에게 커피챗
           요청하기
         </span>
@@ -96,9 +96,11 @@ function CoffeeFormPage() {
           {userInfo.price}원 입니다
         </span>
         {error && <span>{error}</span>}
-        <Button02 type="submit" onClick={handleSubmit}>
-          커피챗 요청하기
-        </Button02>
+        <div className={styles["button-container"]}>
+          <Button02 type="submit" onClick={handleSubmit}>
+            커피챗 요청하기
+          </Button02>
+        </div>
       </div>
     </div>
   );

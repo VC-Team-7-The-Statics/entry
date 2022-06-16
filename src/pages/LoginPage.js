@@ -64,6 +64,7 @@ function LoginPage() {
 
   return (
     <div className={styles.LoginPage}>
+      <h1 className={styles.title}>로그인</h1>
       <form className={styles["login-form"]} onSubmit={handleSubmit}>
         <div className={styles.login}>
           <div className={styles.login__email}>
