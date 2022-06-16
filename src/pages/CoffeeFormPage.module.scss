@@ -1,13 +1,17 @@
 .request-container {
-  padding: 20px 10px;
+  padding: 20px 20px;
 
   .title {
     font-weight: bolder;
-    font-size: 20px;
+    font-size: 30px;
+  }
+
+  .subtitle {
+    font-size: 18px;
   }
 
   .content {
-    margin-top: 20px;
+    margin-top: 30px;
     font-size: 17px;
   }
 
@@ -22,5 +26,4 @@
 
 .price-wrapper {
   margin-top: 20px;
-  // padding: 20px;
 }

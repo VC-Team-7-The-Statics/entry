@@ -2,7 +2,8 @@
 
 .WelcomePage {
   position: relative;
-  padding: 0px 10px;
+  box-sizing: border-box;
+  padding: 20px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,16 +26,13 @@
       .title {
         font-size: 50px;
         font-weight: bolder;
-        font-family: "Joan", serif;
         letter-spacing: 1px;
       }
     }
 
     .subtitle-container {
-      .subtitle {
-        font-size: 15px;
-        letter-spacing: -1px;
-        font-weight: bolder;
+      .slogan {
+        font-size: 12px;
       }
     }
   }

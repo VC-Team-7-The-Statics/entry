@@ -21,13 +21,17 @@ function UserCardLeftBar({ name, company, languages, expertise }) {
         <div className={styles["left-bar__container__text-box"]}>
           <span>프로그래밍 언어</span>
           {languageCollection.map((language, i) => (
-            <span key={i}>{language}</span>
+            <span className={styles.language} key={i}>
+              {language}
+            </span>
           ))}
         </div>
         <div className={styles["left-bar__container__text-box"]}>
           <span>스택</span>
           {stackCollection.map((stack, i) => (
-            <span key={i}>{stack}</span>
+            <span className={styles.stack} key={i}>
+              {stack}
+            </span>
           ))}
         </div>
       </div>

@@ -19,9 +19,7 @@ function WelcomePage() {
           <h1 className={styles.title}>Sinder</h1>
         </div>
         <div className={styles["subtitle-container"]}>
-          <h2 className={styles.subtitle}>
-            A cup of coffee with local developers
-          </h2>
+          <h2 className={styles.slogan}>COFFEE CHAT WITH LOCAL DEVELOPERS</h2>
         </div>
       </div>
       <div className={styles.selection}>
