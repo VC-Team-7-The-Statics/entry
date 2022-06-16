@@ -1,5 +1,5 @@
 import "./App.scss";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useQuery } from "react-query";
 import axios from "axios";
@@ -12,13 +12,12 @@ import LoginPage from "./pages/LoginPage";
 import CoffeeFormPage from "./pages/CoffeeFormPage";
 import { setUser } from "./features/user/userSlice";
 import ApiService from "./services/Api";
+import CoffeeLoading from "./components/CoffeeLoading";
 
 const ApiInstance = new ApiService(axios);
 
 function App() {
   const dispatch = useDispatch();
-
-  const navigate = useNavigate();
 
   const { isLoading } = useQuery("auto-login", ApiInstance.login, {
     onSuccess: ({ data }) => {
@@ -26,7 +25,6 @@ function App() {
         if (window.isNativeApp) {
           window.ReactNativeWebView.postMessage(`token ${data.token}`);
         }
-
         const user = {
           id: data.user._id,
           name: data.user.name,
@@ -39,17 +37,12 @@ function App() {
           match: data.user.match,
           location: data.user.location,
         };
-
         return dispatch(setUser(user));
       }
-
-      navigate("/login");
     },
   });
 
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
+  if (isLoading) return <CoffeeLoading />;
 
   return (
     <>

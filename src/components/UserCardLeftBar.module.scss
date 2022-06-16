@@ -8,11 +8,16 @@
 
 .left-bar__name {
   font-weight: 600;
-  font-size: 17px;
+  font-size: 22px;
 }
 
 .left-bar__container {
   padding: 5px 0;
+
+  .language,
+  .stack {
+    font-weight: bolder;
+  }
 }
 
 .left-bar__container__text-box:first-child {

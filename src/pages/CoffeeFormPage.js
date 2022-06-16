@@ -1,9 +1,9 @@
-import { Input01, Textarea, Button01 } from "@the-statics/shared-components";
+import { Input01, Textarea, Button02 } from "@the-statics/shared-components";
 import { useState } from "react";
 import axios from "axios";
 import { useMutation, useQuery } from "react-query";
 import { useNavigate, useParams } from "react-router-dom";
-
+import styles from "./CoffeeFormPage.module.scss";
 import ApiService from "../services/Api";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/user/userSlice";
@@ -72,27 +72,36 @@ function CoffeeFormPage() {
   };
 
   return (
-    <div>
-      <h1>커피챗 요청</h1>
-      <span>
-        <span className="username">{userInfo.name}</span> 님에게 커피챗 요청하기
-      </span>
-      <Input01
-        placeholder="제목을 입력해주세요."
-        onChange={handleChange("title")}
-      />
-      <Textarea
-        placeholder="현재 겪고 있는 문제를 구체적으로 설명해주세요."
-        onChange={handleChange("content")}
-      />
-      <span>
-        <span className="username">{userInfo.name}</span> 님의 커피챗 가격은{" "}
-        {userInfo.price}원 입니다
-      </span>
-      {error && <span>{error}</span>}
-      <Button01 type="submit" onClick={handleSubmit}>
-        커피챗 요청하기
-      </Button01>
+    <div className={styles["request-container"]}>
+      <h1 className={styles.title}>커피챗 요청</h1>
+      <div className={styles.content}>
+        <span className={styles.subtitle}>
+          <span className="username">{userInfo.name}</span> 님에게 커피챗
+          요청하기
+        </span>
+        <div className="input-wrapper">
+          <Input01
+            placeholder="제목을 입력해주세요."
+            onChange={handleChange("title")}
+          />
+        </div>
+        <div className="textarea-wrapper">
+          <Textarea
+            placeholder="현재 겪고 있는 문제를 구체적으로 설명해주세요."
+            onChange={handleChange("content")}
+          />
+        </div>
+        <span className={styles["price-wrapper"]}>
+          <span className="username">{userInfo.name}</span> 님의 커피챗 가격은{" "}
+          {userInfo.price}원 입니다
+        </span>
+        {error && <span>{error}</span>}
+        <div className={styles["button-container"]}>
+          <Button02 type="submit" onClick={handleSubmit}>
+            커피챗 요청하기
+          </Button02>
+        </div>
+      </div>
     </div>
   );
 }

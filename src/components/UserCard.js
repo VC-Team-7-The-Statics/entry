@@ -23,19 +23,21 @@ function UserCard({
   return (
     <div className={styles.card} ref={lastUserCardRef}>
       <img className={styles.card__image} alt="user" src={image} />
-      <UserCardLeftBar
-        name={name}
-        company={company}
-        languages={languages}
-        expertise={expertise}
-      />
-      <UserCardHeartIcon onError={handleError} userId={userId} />
-      <UserCardCoffeeIcon userId={userId} />
-      {error && (
-        <div className={styles.card__error}>
-          <span>{error}</span>
-        </div>
-      )}
+      <div className={styles.content}>
+        <UserCardLeftBar
+          name={name}
+          company={company}
+          languages={languages}
+          expertise={expertise}
+        />
+        <UserCardHeartIcon onError={handleError} userId={userId} />
+        <UserCardCoffeeIcon userId={userId} />
+        {error && (
+          <div className={styles.card__error}>
+            <span>{error}</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import axios from "axios";
 import { selectUser } from "../features/user/userSlice";
 import UserCard from "../components/UserCard";
 import ApiService from "../services/Api";
+import CoffeeLoading from "../components/CoffeeLoading";
 
 const ApiInstance = new ApiService(axios);
 
@@ -19,6 +20,7 @@ function HomePage() {
     hasNextPage,
     fetchNextPage,
   } = useInfiniteQuery("users", ApiInstance.fetchInfinite(user.id), {
+    staleTime: Infinity,
     getNextPageParam: (lastPage) => {
       if (lastPage.data.isLastPage) return;
 
@@ -44,14 +46,13 @@ function HomePage() {
     [fetchNextPage, isLoading, hasNextPage]
   );
 
-  if (isLoading) return <h1>LOADING.....!!!!</h1>;
+  if (isLoading) return <CoffeeLoading />;
 
   return (
-    <div className={styles.app__videos}>
-      {users.pages.map(
-        ({ data }, i) =>
-          data.success &&
-          data.recommendation.length && (
+    <div className={styles.container}>
+      {users.pages.map(({ data }, i) => (
+        <div className={styles.app__videos} key={i}>
+          {data.success && data.recommendation.length ? (
             <UserCard
               image={data.recommendation[0].image}
               name={data.recommendation[0].name}
@@ -59,13 +60,19 @@ function HomePage() {
               expertise={data.recommendation[0].expertise}
               languages={data.recommendation[0].languages}
               userId={data.recommendation[0]._id}
-              key={i}
               lastUserCardRef={
                 users.pages.length - 1 === i ? lastUserCardRef : null
               }
             />
-          )
-      )}
+          ) : (
+            <div className={styles["notification-container"]}>
+              <p className={styles.notification}>
+                현재 반경 1km 이내에 사용자가 없습니다.
+              </p>
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
 }
