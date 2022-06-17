@@ -19,6 +19,7 @@ function HomePage() {
     data: users,
     hasNextPage,
     fetchNextPage,
+    refetch,
   } = useInfiniteQuery("users", ApiInstance.fetchInfinite(user.id), {
     staleTime: Infinity,
     getNextPageParam: (lastPage) => {
@@ -69,6 +70,7 @@ function HomePage() {
               <p className={styles.notification}>
                 현재 반경 1km 이내에 사용자가 없습니다.
               </p>
+              <div onClick={refetch}>다시 불러오기</div>
             </div>
           )}
         </div>

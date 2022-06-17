@@ -19,10 +19,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 
   .notification {
     font-size: 18px;
     font-weight: bolder;
     color: rgb(75, 75, 75);
+    margin-bottom: 20px;
   }
 }

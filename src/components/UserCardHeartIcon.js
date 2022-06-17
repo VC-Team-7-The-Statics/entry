@@ -50,7 +50,7 @@ function UserCardHeartIcon({ onError, userId }) {
   return (
     <div
       className={styles["icon-container"]}
-      onClick={debounce(handleLike, 250)}
+      onClick={debounce(handleLike, 150)}
     >
       <img
         src={image}

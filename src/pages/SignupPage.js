@@ -10,10 +10,10 @@ import axios from "axios";
 import { debounce } from "lodash";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "react-query";
 
 import styles from "./SignupPage.module.scss";
 import SelectLanguage from "../components/SelectLanguage";
-import { useMutation, useQuery } from "react-query";
 import ApiService from "../services/Api";
 import { setUser } from "../features/user/userSlice";
 import { SignUpSchema } from "../services/Validation";
@@ -69,7 +69,7 @@ function SignupPage() {
         };
 
         dispatch(setUser(user));
-        navigate("/");
+        navigate("/", { replace: true });
       },
       onError: () => {
         setError("네트워크 요청을 실패했습니다.");
@@ -189,7 +189,7 @@ function SignupPage() {
         />
         <Title value={error} />
         <div className={styles["submit-button-container"]}>
-          <Button02 onClick={debounce(handleSubmit, 500)}>등록하기</Button02>
+          <Button02 onClick={debounce(handleSubmit, 200)}>등록하기</Button02>
         </div>
       </div>
     </div>
