@@ -47,7 +47,7 @@ function LoginPage() {
       };
 
       dispatch(setUser(user));
-      navigate("/");
+      navigate("/", { replace: true });
     },
   });
 

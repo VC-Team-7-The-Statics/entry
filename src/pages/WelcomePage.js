@@ -1,9 +1,20 @@
 import styles from "./WelcomePage.module.scss";
 import { useNavigate } from "react-router-dom";
 import { Button01, Button02 } from "@the-statics/shared-components";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
+
+import { selectUser } from "../features/user/userSlice";
 
 function WelcomePage() {
   const navigate = useNavigate();
+  const user = useSelector(selectUser);
+
+  useEffect(() => {
+    if (user.name) {
+      navigate("/", { replace: true });
+    }
+  }, [navigate, user.name]);
 
   return (
     <div className={styles.WelcomePage}>
@@ -26,7 +37,7 @@ function WelcomePage() {
         <div className={styles.selection__login}>
           <Button02
             className={styles["selection__login__button-container"]}
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/login", { replace: true })}
           >
             로그인 하기
           </Button02>
@@ -34,7 +45,7 @@ function WelcomePage() {
         <div className={styles.selection__signup}>
           <Button01
             className={styles["selection__signup__button-container"]}
-            onClick={() => navigate("/signup")}
+            onClick={() => navigate("/signup", { replace: true })}
           >
             회원가입 하기
           </Button01>
