@@ -1,4 +1,9 @@
-import { Input01, Textarea, Button02 } from "@the-statics/shared-components";
+import {
+  Title,
+  Input01,
+  Textarea,
+  Button02,
+} from "@the-statics/shared-components";
 import { useState } from "react";
 import axios from "axios";
 import { useMutation, useQuery } from "react-query";
@@ -73,7 +78,7 @@ function CoffeeFormPage() {
 
   return (
     <div className={styles["request-container"]}>
-      <h1 className={styles.title}>커피챗 요청</h1>
+      <Title value="커피챗 요청" />
       <div className={styles.content}>
         <span className={styles.subtitle}>
           <span className="username">{userInfo.name}</span> 님에게 커피챗
