@@ -16,10 +16,6 @@ function UserCard({
 }) {
   const [error, setError] = useState("");
 
-  const handleError = (error) => {
-    setError(error);
-  };
-
   return (
     <div className={styles.card} ref={lastUserCardRef}>
       <img className={styles.card__image} alt="user" src={image} />
@@ -30,7 +26,7 @@ function UserCard({
           languages={languages}
           expertise={expertise}
         />
-        <UserCardHeartIcon onError={handleError} userId={userId} />
+        <UserCardHeartIcon onError={setError} userId={userId} />
         <UserCardCoffeeIcon userId={userId} />
         {error && (
           <div className={styles.card__error}>

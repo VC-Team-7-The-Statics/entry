@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../features/user/userSlice";
 import UserCard from "../components/UserCard";
 import CoffeeLoading from "../components/CoffeeLoading";
-import { useInfitniteUsers } from "../hooks/user.hooks";
+import { useInfiniteUsers } from "../hooks/user.hooks";
 
 function HomePage() {
   const user = useSelector(selectUser);
@@ -16,7 +16,7 @@ function HomePage() {
     hasNextPage,
     fetchNextPage,
     refetch,
-  } = useInfitniteUsers(user.id, {
+  } = useInfiniteUsers(user.id, {
     staleTime: Infinity,
     getNextPageParam: (lastPage) => {
       if (lastPage.data.isLastPage) return;
