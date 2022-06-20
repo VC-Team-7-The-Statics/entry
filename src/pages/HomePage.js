@@ -1,15 +1,11 @@
 import styles from "./HomePage.module.scss";
 import { useCallback, useRef } from "react";
 import { useSelector } from "react-redux";
-import { useInfiniteQuery } from "react-query";
-import axios from "axios";
 
 import { selectUser } from "../features/user/userSlice";
 import UserCard from "../components/UserCard";
-import ApiService from "../services/Api";
 import CoffeeLoading from "../components/CoffeeLoading";
-
-const ApiInstance = new ApiService(axios);
+import { useInfitniteUsers } from "../hooks/user.hooks";
 
 function HomePage() {
   const user = useSelector(selectUser);
@@ -20,7 +16,7 @@ function HomePage() {
     hasNextPage,
     fetchNextPage,
     refetch,
-  } = useInfiniteQuery("users", ApiInstance.fetchInfinite(user.id), {
+  } = useInfitniteUsers(user.id, {
     staleTime: Infinity,
     getNextPageParam: (lastPage) => {
       if (lastPage.data.isLastPage) return;

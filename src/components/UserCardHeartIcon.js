@@ -1,36 +1,30 @@
 import styles from "./UserCardHeartIcon.module.scss";
-import axios from "axios";
 import { debounce } from "lodash";
 import { useState } from "react";
-import { useMutation } from "react-query";
 import { useSelector } from "react-redux";
 
 import { selectUser } from "../features/user/userSlice";
-import ApiService from "../services/Api";
-
-const ApiInstance = new ApiService(axios);
-
-const emptyHeart = "./icons/white-heart.png";
-const filledHeart = "./icons/white-heart-filled.png";
+import { useLike } from "../hooks/auth.hooks";
+import assets from "../constants/assets";
 
 function UserCardHeartIcon({ onError, userId }) {
   const user = useSelector(selectUser);
 
   const [liked, setLiked] = useState(user.likes.includes(userId));
   const [image, setImage] = useState(
-    user.likes.includes(userId) ? filledHeart : emptyHeart
+    user.likes.includes(userId) ? assets.FILLED_HEART : assets.EMPTY_HEART
   );
 
-  const { mutate } = useMutation((body) => ApiInstance.likeUser({ ...body }), {
+  const { mutate } = useLike({
     onSuccess: ({ data }) => {
       if (!data.success) {
-        setImage(emptyHeart);
+        setImage(assets.EMPTY_HEART);
         setLiked(false);
         onError("요청에 실패했습니다");
       }
     },
     onError: () => {
-      setImage(emptyHeart);
+      setImage(assets.EMPTY_HEART);
       setLiked(false);
       onError("네트워크 요청에 실패했습니다");
     },
@@ -42,7 +36,7 @@ function UserCardHeartIcon({ onError, userId }) {
       to: userId,
     };
 
-    setImage(filledHeart);
+    setImage(assets.FILLED_HEART);
     setLiked(true);
     !liked && mutate(requestBody);
   };
