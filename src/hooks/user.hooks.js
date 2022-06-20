@@ -11,7 +11,7 @@ export const useCoffeeFormSend = (options) =>
     ...options,
   });
 
-export const useInfitniteUsers = (userId, options) =>
+export const useInfiniteUsers = (userId, options) =>
   useInfiniteQuery(
     queryKeys.INFINITE_USERS,
     ApiInstance.fetchInfinite(userId),
