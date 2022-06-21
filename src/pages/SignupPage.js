@@ -120,8 +120,8 @@ function SignupPage() {
 
   return (
     <div className={styles.SignupPage}>
-      <div className={styles.title}>회원 등록</div>
-      <h1 className={styles.subtitle}>기본 정보</h1>
+      <Title value="회원 등록" />
+      <h2 className={styles.subtitle}>기본 정보</h2>
       <div className={styles.content}>
         <Input01
           placeholder="이름을 입력해주세요."
@@ -144,7 +144,7 @@ function SignupPage() {
           placeholder="전문 분야를 소개해주세요. 예) socket.io 이용한 채팅 기능 구현에 자신 있습니다."
           onChange={handleChange("expertise")}
         />
-        <h1 className={styles.subtitle}>사진 등록</h1>
+        <h2 className={styles.subtitle}>사진 등록</h2>
         <div className={styles["image-container"]}>
           {!base64 && (
             <div className={styles["no-image"]}>
@@ -162,7 +162,7 @@ function SignupPage() {
         <Button02 type="button" onClick={openGallery}>
           사진 등록하기
         </Button02>
-        <h1 className={styles.subtitle}>기술</h1>
+        <h2 className={styles.subtitle}>기술</h2>
         <ul className={styles["langauages-and-stacks-container"]}>
           {data?.data.languages.map((languageBlock, i) => (
             <li key={i}>

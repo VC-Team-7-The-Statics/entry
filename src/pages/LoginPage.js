@@ -1,5 +1,5 @@
 import styles from "./LoginPage.module.scss";
-import { Button02, Input01 } from "@the-statics/shared-components";
+import { Title, Button02, Input01 } from "@the-statics/shared-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
@@ -60,7 +60,7 @@ function LoginPage() {
 
   return (
     <div className={styles.LoginPage}>
-      <h1 className={styles.title}>로그인</h1>
+      <Title value="로그인" />
       <form className={styles["login-form"]} onSubmit={handleSubmit}>
         <div className={styles.login}>
           <div className={styles.login__email}>

@@ -1,5 +1,10 @@
+import {
+  Title,
+  Input01,
+  Textarea,
+  Button02,
+} from "@the-statics/shared-components";
 import styles from "./CoffeeFormPage.module.scss";
-import { Input01, Textarea, Button02 } from "@the-statics/shared-components";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -68,7 +73,7 @@ function CoffeeFormPage() {
 
   return (
     <div className={styles["request-container"]}>
-      <h1 className={styles.title}>커피챗 요청</h1>
+      <Title value="커피챗 요청" />
       <div className={styles.content}>
         <span className={styles.subtitle}>
           <span className="username">{userInfo.name}</span> 님에게 커피챗
