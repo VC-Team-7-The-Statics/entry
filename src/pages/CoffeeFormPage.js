@@ -1,14 +1,17 @@
-import { Input01, Textarea, Button02 } from "@the-statics/shared-components";
-import { useState } from "react";
-import axios from "axios";
-import { useMutation, useQuery } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  Title,
+  Input01,
+  Textarea,
+  Button02,
+} from "@the-statics/shared-components";
 import styles from "./CoffeeFormPage.module.scss";
-import ApiService from "../services/Api";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectUser } from "../features/user/userSlice";
 
-const ApiInstance = new ApiService(axios);
+import { selectUser } from "../features/user/userSlice";
+import { useUserPrice } from "../hooks/auth.hooks";
+import { useCoffeeFormSend } from "../hooks/user.hooks";
 
 function CoffeeFormPage() {
   const user = useSelector(selectUser);
@@ -26,7 +29,7 @@ function CoffeeFormPage() {
     content: "",
   });
 
-  useQuery("price", ApiInstance.getUserCoffeePrice(userId), {
+  useUserPrice({
     staleTime: Infinity,
     onSuccess: ({ data }) => {
       if (!data.success) {
@@ -40,21 +43,18 @@ function CoffeeFormPage() {
     },
   });
 
-  const { mutate } = useMutation(
-    (coffeeForm) => ApiInstance.sendCoffeeForm({ ...coffeeForm }),
-    {
-      onSuccess: ({ data }) => {
-        if (!data.success) {
-          return setError(data.message);
-        }
+  const { mutate } = useCoffeeFormSend({
+    onSuccess: ({ data }) => {
+      if (!data.success) {
+        return setError(data.message);
+      }
 
-        navigate("/");
-      },
-      onError: () => {
-        setError("네트워크 요청을 실패했습니다.");
-      },
-    }
-  );
+      navigate("/", { replace: true });
+    },
+    onError: () => {
+      setError("네트워크 요청을 실패했습니다.");
+    },
+  });
 
   const handleChange = (type) => (e) => {
     setInput((prev) => ({ ...prev, [type]: e.target.value }));
@@ -73,7 +73,7 @@ function CoffeeFormPage() {
 
   return (
     <div className={styles["request-container"]}>
-      <h1 className={styles.title}>커피챗 요청</h1>
+      <Title value="커피챗 요청" />
       <div className={styles.content}>
         <span className={styles.subtitle}>
           <span className="username">{userInfo.name}</span> 님에게 커피챗

@@ -6,19 +6,15 @@ import {
 } from "@the-statics/shared-components";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import memoize from "fast-memoize";
-import axios from "axios";
 import { debounce } from "lodash";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "react-query";
 
 import styles from "./SignupPage.module.scss";
 import SelectLanguage from "../components/SelectLanguage";
-import ApiService from "../services/Api";
 import { setUser } from "../features/user/userSlice";
 import { SignUpSchema } from "../services/Validation";
-
-const ApiInstance = new ApiService(axios);
+import { useLanguageSample, useSignUp } from "../hooks/auth.hooks";
 
 function SignupPage() {
   const dispatch = useDispatch();
@@ -43,41 +39,38 @@ function SignupPage() {
 
   const img = useMemo(() => base64, [base64]);
 
-  const mutation = useMutation(
-    (credentials) => ApiInstance.signup({ ...credentials }),
-    {
-      onSuccess: ({ data }) => {
-        if (!data.success) {
-          return setError(data.message);
-        }
+  const { mutate } = useSignUp({
+    onSuccess: ({ data }) => {
+      if (!data.success) {
+        return setError(data.message);
+      }
 
-        if (window.ReactNativeWebView) {
-          window.ReactNativeWebView.postMessage(`token ${data.token}`);
-        }
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(`token ${data.token}`);
+      }
 
-        const user = {
-          id: data.user._id,
-          name: data.user.name,
-          email: data.user.email,
-          image: data.user.image,
-          languages: data.user.languages,
-          expertise: data.user.expertise,
-          price: data.user.price,
-          likes: data.user.likes,
-          match: data.user.match,
-          location: data.user.location,
-        };
+      const user = {
+        id: data.user._id,
+        name: data.user.name,
+        email: data.user.email,
+        image: data.user.image,
+        languages: data.user.languages,
+        expertise: data.user.expertise,
+        price: data.user.price,
+        likes: data.user.likes,
+        match: data.user.match,
+        location: data.user.location,
+      };
 
-        dispatch(setUser(user));
-        navigate("/", { replace: true });
-      },
-      onError: () => {
-        setError("네트워크 요청을 실패했습니다.");
-      },
-    }
-  );
+      dispatch(setUser(user));
+      navigate("/", { replace: true });
+    },
+    onError: () => {
+      setError("네트워크 요청을 실패했습니다.");
+    },
+  });
 
-  const { data } = useQuery("languages", ApiInstance.getLanguages, {
+  const { data } = useLanguageSample({
     staleTime: Infinity,
   });
 
@@ -103,7 +96,7 @@ function SignupPage() {
       return setError(error.details[0].message);
     }
 
-    mutation.mutate({ ...credentials, base64 });
+    mutate({ ...credentials, base64 });
   };
 
   const openGallery = () => {
@@ -127,8 +120,8 @@ function SignupPage() {
 
   return (
     <div className={styles.SignupPage}>
-      <div className={styles.title}>회원 등록</div>
-      <h1 className={styles.subtitle}>기본 정보</h1>
+      <Title value="회원 등록" />
+      <h2 className={styles.subtitle}>기본 정보</h2>
       <div className={styles.content}>
         <Input01
           placeholder="이름을 입력해주세요."
@@ -151,7 +144,7 @@ function SignupPage() {
           placeholder="전문 분야를 소개해주세요. 예) socket.io 이용한 채팅 기능 구현에 자신 있습니다."
           onChange={handleChange("expertise")}
         />
-        <h1 className={styles.subtitle}>사진 등록</h1>
+        <h2 className={styles.subtitle}>사진 등록</h2>
         <div className={styles["image-container"]}>
           {!base64 && (
             <div className={styles["no-image"]}>
@@ -169,7 +162,7 @@ function SignupPage() {
         <Button02 type="button" onClick={openGallery}>
           사진 등록하기
         </Button02>
-        <h1 className={styles.subtitle}>기술</h1>
+        <h2 className={styles.subtitle}>기술</h2>
         <ul className={styles["langauages-and-stacks-container"]}>
           {data?.data.languages.map((languageBlock, i) => (
             <li key={i}>

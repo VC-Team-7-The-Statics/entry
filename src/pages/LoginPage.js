@@ -1,17 +1,13 @@
 import styles from "./LoginPage.module.scss";
-import { Button02, Input01 } from "@the-statics/shared-components";
+import { Title, Button02, Input01 } from "@the-statics/shared-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
-import { useMutation } from "react-query";
 import { useDispatch } from "react-redux";
 
 import { setUser } from "../features/user/userSlice";
-import ApiService from "../services/Api";
 import { LogInSchema } from "../services/Validation";
 import { wait } from "../utils/helpers";
-
-const ApiInstance = new ApiService(axios);
+import { useLogin } from "../hooks/auth.hooks";
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -21,7 +17,7 @@ function LoginPage() {
   const [input, setInput] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
 
-  const { mutate } = useMutation((input) => ApiInstance.login({ ...input }), {
+  const { mutate } = useLogin({
     onSuccess: async ({ data }) => {
       if (!data.success) {
         return setError("로그인 정보가 불일치 합니다.");
@@ -64,7 +60,7 @@ function LoginPage() {
 
   return (
     <div className={styles.LoginPage}>
-      <h1 className={styles.title}>로그인</h1>
+      <Title value="로그인" />
       <form className={styles["login-form"]} onSubmit={handleSubmit}>
         <div className={styles.login}>
           <div className={styles.login__email}>
