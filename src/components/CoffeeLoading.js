@@ -2,7 +2,7 @@ import styles from "./CoffeeLoading.module.scss";
 
 function CoffeeLoading() {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="coffee-loading">
       <div className={styles["coffee-container"]}>
         <div className={styles.cup}>
           <div className={styles.coffee}></div>

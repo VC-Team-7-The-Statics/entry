@@ -1,8 +1,6 @@
 import "./App.scss";
 import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { useQuery } from "react-query";
-import axios from "axios";
 
 import WelcomePage from "./pages/WelcomePage";
 import HomePage from "./pages/HomePage";
@@ -11,15 +9,13 @@ import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import CoffeeFormPage from "./pages/CoffeeFormPage";
 import { setUser } from "./features/user/userSlice";
-import ApiService from "./services/Api";
 import CoffeeLoading from "./components/CoffeeLoading";
-
-const ApiInstance = new ApiService(axios);
+import { useAutoLogin } from "./hooks/auth.hooks";
 
 function App() {
   const dispatch = useDispatch();
 
-  const { isLoading } = useQuery("auto-login", ApiInstance.login, {
+  const { isLoading } = useAutoLogin({
     onSuccess: ({ data }) => {
       if (data.success) {
         if (window.isNativeApp) {
